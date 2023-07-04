@@ -12,13 +12,8 @@ constexpr auto KEY_LEFT = 75;
 constexpr auto KEY_RIGHT = 77;
 constexpr auto KEY_ENTER = 13;
 constexpr auto KEY_BACKSPACE = 8;
-using std::cout;
-using std::string;
-using std::cin;
-using std::endl;
-using std::to_string;
-using std::getline;
 
+using namespace std;
 FILE* stream;
 
 char* Fixer(string InpStr)
@@ -396,6 +391,7 @@ struct Draw
 }d;
 struct Drawing
 {   string NL = " & echo. & echo ";//! "& echo. & echo"
+    string NLF = "|";              //New line in the file 
     string Tb = "^|  ^|";          // Adds a tab
     string SP = (d.SP += d.SPc);   //! " " Space
     string AA = (d.AA += d.AAc);   //! » Two arrows 
@@ -564,12 +560,57 @@ void Timetable()
         day++;
     }
     convert(Bottom);
-    string endinfofile = "*";
+    
+   
+}
+void endinfofile()
+{   string endinfofile = "|*";
+    endinfofile.append(D.NLF);// Top of student table 
+    {
+        endinfofile.append(D.TL);
+        for (int i = 0; i < 40; i++) { endinfofile.append(D.LM); }
+        endinfofile.append(D.TM);
+        for (int i = 0; i < 9; i++) { endinfofile.append(D.LM); }
+        endinfofile.append(D.TM);
+        for (int i = 0; i < 16; i++) { endinfofile.append(D.LM); }
+        endinfofile.append(D.TR);
+
+    }
+    endinfofile.append(D.NLF);// Headers of student table 
+    {
+        endinfofile.append(D.MM);
+        string  H1 = "Student's Full Name";          //Header One.
+        for (int i = 0; i < 10; i++) { endinfofile.append(D.SP); }
+        endinfofile.append(H1);
+        for (int i = 0; i < 10; i++) { endinfofile.append(D.SP); }
+        endinfofile.append(D.MM);
+        string H2 = "Gender";                        //Header two.
+        for (int i = 0; i < 3; i++) { endinfofile.append(D.SP); }
+        endinfofile.append(H2);
+        for (int i = 0; i < 3; i++) { endinfofile.append(D.SP); }
+        endinfofile.append(D.MM);
+        string  H3 = "Date of Birth";                //Header three.
+        endinfofile.append(D.SP);
+        endinfofile.append(H3);
+        endinfofile.append(D.SP);
+        endinfofile.append(D.MM);
+    }
+    endinfofile.append(D.NLF);// Divider of Student table.
+    {
+        endinfofile.append(D.LL);
+        for (int i = 0; i < 40; i++) { endinfofile.append(D.LM); }
+        endinfofile.append(D.LC);
+        for (int i = 0; i < 9; i++) { endinfofile.append(D.LM); }
+        endinfofile.append(D.LC);
+        for (int i = 0; i < 16; i++) { endinfofile.append(D.LM); }
+        endinfofile.append(D.LR);
+    }
+    endinfofile.append(D.NLF);// End of endinfofile. 
     convert(endinfofile);
 }
 void convert(string in)
 {
-        std::u8string  output;
+        u8string  output;
         output = u8"";
     char* working = new char[in.length() + 1];
     for (int i = 0; i < in.length(); i++)
@@ -651,9 +692,14 @@ void convert(string in)
               output += u8" ";
           }
           break;
+          case '|'://! New line in the file
+          {
+              output += u8"\n";
+          }
+          break;
           case '*'://! * Asterisk this is for ending the info file
           {
-              output = u8"\n Students in this class : \n";
+              output  = u8" Students in this class : ";
           }
           break;
           default:
@@ -663,10 +709,10 @@ void convert(string in)
           break;
         }
     }
-        std::u8string u8str = output;
+        u8string u8str = output;
         u8str += u8"\n";
-        std::ofstream out(outclasspath, std::ios_base::app);
-        out << std::string_view(reinterpret_cast<const char*>(u8str.data()), u8str.size());
+        ofstream out(outclasspath, ios_base::app);
+        out << string_view(reinterpret_cast<const char*>(u8str.data()), u8str.size());
         out.close();
     delete[] working;
 }
@@ -803,24 +849,39 @@ string gender()
  * string ClassName        =   str5;                      // The name of The student's class.
  * string path C:\\logins\\teachers\\"TeacherName"\\Classes\\"ClassName"\\"ClassName"-info.txt
  * ie:
- *   41-7-15 
- * ╔═════════════════════════════════════════╦════════╦═══════════════╗
- * ║            Full student Name            ║ Gender ║ Date of birth ║     
- * ╠═════════════════════════════════════════╬════════╬═══════════════╣
- * ║ Aedan Henare Paltridge Nicholls         ║  Male  ║   17-01-04    ║
- * ╠═════════════════════════════════════════╬════════╬═══════════════╣
+ *   40-7-16 
+ * ╔════════════════════════════════════════╦════════╦═══════════════╗
+ * ║          Student's Full Name           ║ Gender ║ Date of birth ║     
+ * ╠════════════════════════════════════════╬════════╬═══════════════╣
+ * ║ Aedan Henare Paltridge Nicholls        ║ Male   ║   17-01-04    ║
+ * ╠════════════════════════════════════════╬════════╬═══════════════╣
  * 
  * 
  */
 void SudentInfoToClass(string str1, string str2, string str3, string str4, string str5)
 {
-    string StudentName = str1;                      // The name of The student
-    string StudentDOB = str2;                 // The Date of birth of The student 
-     string gen = str3;                    // the student's gender.
-    string TeacherName = str4;                      // The student's teacher's name.
-    string ClassName = str5;                      // The name of The student's class.
-    string path = "C:\\logins\\teachers\\";
-    string fullpath = path + for
+    string StudentName = str1;                                                // The name of The student
+    string StudentDOB = str2;                                                 // The Date of birth of The student 
+    string gen = str3;                                                        // the student's gender.
+    string TeacherName = str4;                                                // The student's teacher's name.
+    string ClassName = str5;                                                  // The name of The student's class.
+    string path = "C:\\logins\\teachers\\";                                   // Path to the file.
+    path += Formatter("\\" + TeacherName + "\\" + ClassName + "\\");          // Continued.
+    path += Formatter("Classes" + ClassName + "\\" + ClassName + "-info.txt");// Continued.
+    outclasspath = path;                                                      // Finished.
+    
+
+
+
+
+
+
+
+
+
+
+
+
 }
 /*This ↓ is the format that will be written to the file.
  *string StudentName      =   str1                 // The name of The student
@@ -840,15 +901,15 @@ void SudentInfoToClass(string str1, string str2, string str3, string str4, strin
 void StudentInfoFile(string str1, string str2, string str3, string str4, string str5, string str6, string str7)
 {
 
-    char Bs = 92;                              // A Back slash
+    char Bs = 92;                                        // A Back slash
     unsigned  char Ob = 40;                              // A Open bracket.
     unsigned  char Cb = 41;                              // A Closed bracket.
     unsigned  char Qm = 34;                              // A Quotation mark.
-    string Sp = " ";                                    // A space.
+    string Sp = " ";                                     // A space.
     string gen = gender();                               // the student's gender.
-    string Path = Formatter(str7) + Bs + Formatter(str1);              // The path to The file
-    string FN = Formatter(str1);                          // The Name of The file
-    string Tb = " ^|  ^| ";                                // Adds a tab
+    string Path = Formatter(str7) + Bs + Formatter(str1);// The path to The file
+    string FN = Formatter(str1);                         // The Name of The file
+    string Tb = " ^|  ^| ";                              // Adds a tab
     string SC = "(echo.";                                // Starts The command
     string EC = ") >";                                   // Ends The command
     string NL = "& echo. & echo";                        // adds a new line to a file
@@ -880,9 +941,9 @@ void AddStudent()
 {
    
     cin.ignore();
-    string Tb = " ^|  ^| ";                     // Adds a tab
-    string path = "C:\\logins\\Teachers";    // The main path.    
-    string Bs = "\\";                        // A Back slash.
+    string Tb = " ^|  ^| ";                       // Adds a tab
+    string path = "C:\\logins\\Teachers";         // The main path.    
+    string Bs = "\\";                             // A Back slash.
     string TeacherName = "";                      // The student's teacher's name.
     string ClassName = "";                        // The name of The student's class.
     string StudentName = "";                      // The name of The student.
@@ -895,7 +956,7 @@ void AddStudent()
     string FatherPhonenumber = "";                // The student's parent's phone number.
     string Studentaddress = "";                   // The address of The student.
     string Yearlevel = "";                        // The Year level of The student.
-    string Warning = "Student already exists"; // Warns if The inputted class already exists.
+    string Warning = "Student already exists";    // Warns if The inputted class already exists.
     // Other info.↓
     cout << "The student's teacher's name  "; // The students teacher's name.
     getline(cin, TeacherName);
