@@ -536,7 +536,9 @@ void Timetable()
             }
         }
     }
-  
+    void endinfofile();
+    void convert(string);
+
         cout << Top << endl;
         cout << Header << endl;
          for (int i = 0; i < 7; i++)
@@ -560,11 +562,13 @@ void Timetable()
         day++;
     }
     convert(Bottom);
-    
+    endinfofile();
    
 }
 void endinfofile()
-{   string endinfofile = "|*";
+{
+    void convert(string);
+    string endinfofile = "|*";
     endinfofile.append(D.NLF);// Top of student table 
     {
         endinfofile.append(D.TL);
@@ -579,17 +583,17 @@ void endinfofile()
     endinfofile.append(D.NLF);// Headers of student table 
     {
         endinfofile.append(D.MM);
-        string  H1 = "Student's Full Name";          //Header One.
+        string  H1 = "Students's Full Name";          //Header One.
         for (int i = 0; i < 10; i++) { endinfofile.append(D.SP); }
         endinfofile.append(H1);
         for (int i = 0; i < 10; i++) { endinfofile.append(D.SP); }
         endinfofile.append(D.MM);
         string H2 = "Gender";                        //Header two.
-        for (int i = 0; i < 3; i++) { endinfofile.append(D.SP); }
+        endinfofile.append(D.SP);
         endinfofile.append(H2);
-        for (int i = 0; i < 3; i++) { endinfofile.append(D.SP); }
+        for (int i = 0; i < 2; i++) { endinfofile.append(D.SP); }
         endinfofile.append(D.MM);
-        string  H3 = "Date of Birth";                //Header three.
+        string  H3 = "Date of Birth ";               //Header three.
         endinfofile.append(D.SP);
         endinfofile.append(H3);
         endinfofile.append(D.SP);
@@ -813,7 +817,7 @@ char Gen;// The students Gender.
 string gender()
 {
 
-    string out = "'s Gender is :";
+    string out = " ";
     switch (Gen)
     {
         case 'M':
@@ -850,11 +854,11 @@ string gender()
  * string path C:\\logins\\teachers\\"TeacherName"\\Classes\\"ClassName"\\"ClassName"-info.txt
  * ie:
  *   40-7-16 
- * ╔════════════════════════════════════════╦════════╦═══════════════╗
- * ║          Student's Full Name           ║ Gender ║ Date of birth ║     
- * ╠════════════════════════════════════════╬════════╬═══════════════╣
- * ║ Aedan Henare Paltridge Nicholls        ║ Male   ║   17-01-04    ║
- * ╠════════════════════════════════════════╬════════╬═══════════════╣
+ * ╔════════════════════════════════════════╦════════╦════════════════╗
+ * ║          Students's Full Name          ║ Gender ║ Date of Birth  ║     
+ * ╠════════════════════════════════════════╬════════╬════════════════╣
+ * ║ Aedan Henare Paltridge Nicholls        ║ Male   ║    17-01-04    ║
+ * ╠════════════════════════════════════════╬════════╬════════════════╣
  * 
  * 
  */
@@ -865,14 +869,45 @@ void SudentInfoToClass(string str1, string str2, string str3, string str4, strin
     string gen = str3;                                                        // the student's gender.
     string TeacherName = str4;                                                // The student's teacher's name.
     string ClassName = str5;                                                  // The name of The student's class.
-    string path = "C:\\logins\\teachers\\";                                   // Path to the file.
-    path += Formatter("\\" + TeacherName + "\\" + ClassName + "\\");          // Continued.
-    path += Formatter("Classes" + ClassName + "\\" + ClassName + "-info.txt");// Continued.
+    string path = "C:\\logins\\teachers";                                     // Path to the file.
+    path += Formatter("\\" + TeacherName + "\\" + "Classes" + "\\");          // Continued.
+    path += Formatter(ClassName + "\\" + ClassName + "-info.txt");            // Continued.
     outclasspath = path;                                                      // Finished.
-    
+    string ClassStudentInfo = "";
+   
 
-
-
+    ClassStudentInfo.append(D.NLF);// Column of student table 
+    {
+        ClassStudentInfo.append(D.MM);
+        string  ColumnOne = StudentName;          //Column One.
+        ClassStudentInfo.append(D.SP);
+        ClassStudentInfo.append(ColumnOne);
+        for (size_t i = 0; i < (40 - ColumnOne.size()); i++) { ColumnOne.append(D.SP); }
+        ClassStudentInfo.append(D.MM);
+        string ColumnTwo = gen;                        //Column two.
+        ClassStudentInfo.append(D.SP);
+        ClassStudentInfo.append(ColumnTwo);
+        for (size_t i = 0; i < (9 - ColumnOne.size()); i++) { ClassStudentInfo.append(D.SP); }
+        ClassStudentInfo.append(D.MM);
+        string  ColumnThree = StudentDOB;
+        //Column three.
+        for (int i = 0; i < 3; i++) {  ClassStudentInfo.append(D.SP); }
+        ClassStudentInfo.append(ColumnThree);
+        for (int i = 0; i < 3; i++) {  ClassStudentInfo.append(D.SP); }
+        ClassStudentInfo.append(D.MM);
+    }
+    ClassStudentInfo.append(D.NLF);// Divider of Student table.
+    {
+        ClassStudentInfo.append(D.LL);
+        for (int i = 0; i < 40; i++) { ClassStudentInfo.append(D.LM); }
+        ClassStudentInfo.append(D.LC);
+        for (int i = 0; i <  9; i++) { ClassStudentInfo.append(D.LM); }
+        ClassStudentInfo.append(D.LC);
+        for (int i = 0; i < 16; i++) { ClassStudentInfo.append(D.LM); }
+        ClassStudentInfo.append(D.LR);
+    }
+    ClassStudentInfo.append(D.NLF);// End of ClassStudentInfo. 
+    convert(ClassStudentInfo);
 
 
 
@@ -891,6 +926,8 @@ void SudentInfoToClass(string str1, string str2, string str3, string str4, strin
  *string Studentaddress;  =   str5                 // The address of The student
  *string Yearlevel;       =   str6                 // The Year level of The student
  *string Path             =   str7                 // The path to The file
+ * string TeacherName     =   str8;                // The student's teacher's name.
+ * string ClassName       =   str9;                // The name of The student's class.
  *string gender           =   gender()             // the student's gender.
  *format
  *Name "StudentName"  Age "StudentAge"   Year level "Yearlevel"
@@ -898,7 +935,7 @@ void SudentInfoToClass(string str1, string str2, string str3, string str4, strin
  *Name of parents "Studentparents"  
  * parents phonenumber "phonenumber"
  */
-void StudentInfoFile(string str1, string str2, string str3, string str4, string str5, string str6, string str7)
+void StudentInfoFile(string str1, string str2, string str3, string str4, string str5, string str6, string str7, string str8, string str9)
 {
 
     char Bs = 92;                                        // A Back slash
@@ -906,13 +943,15 @@ void StudentInfoFile(string str1, string str2, string str3, string str4, string 
     unsigned  char Cb = 41;                              // A Closed bracket.
     unsigned  char Qm = 34;                              // A Quotation mark.
     string Sp = " ";                                     // A space.
-    string gen = gender();                               // the student's gender.
+    string gen =  gender();          // the student's gender.
+   
     string Path = Formatter(str7) + Bs + Formatter(str1);// The path to The file
     string FN = Formatter(str1);                         // The Name of The file
     string Tb = " ^|  ^| ";                              // Adds a tab
     string SC = "(echo.";                                // Starts The command
     string EC = ") >";                                   // Ends The command
-    string NL = "& echo. & echo";                        // adds a new line to a file
+    string NL = "& echo. & echo";                        // adds a new line to a file 
+    string SG = ("'s Gender is : " + gen);          // the student's gender.
     string L1;                                           // line one
     string L2;                                           // line two
     string L3;                                           // line three
@@ -928,18 +967,19 @@ void StudentInfoFile(string str1, string str2, string str3, string str4, string 
     string T9 = ".txt";                                  // File format
 
     L1 = T1 + Sp + str1 + Sp + Tb + Sp + str1 + T2 + Sp + str2 + Sp + Tb + Sp + str1 + T3 + Sp + str6;
-    L2 = Sp + str1 + gen + Sp +Tb+ T4 + Sp + str1 + T5 + Sp + str5;
+    L2 = Sp + str1 + SG + Sp +Tb+ T4 + Sp + str1 + T5 + Sp + str5;
     L3 = Sp + T6 + Sp + str1 + T7 + Sp + str3 + Sp;
     L4 = Sp + str1 + T8 + Sp + str4;
     string command = SC + Sp + L1 + Sp + NL + Sp + L2 + Sp + NL + Sp + L3 + Sp + NL + Sp + L4 + Sp + EC + Sp + Path + Bs + FN + T9;
     system(Fixer(command));
     command = "type " + Path + Bs + FN + T9;
     system(Fixer(command));
+    SudentInfoToClass(str1, str2,gen,str8,str9);
 }
 
 void AddStudent()
 {
-   
+ 
     cin.ignore();
     string Tb = " ^|  ^| ";                       // Adds a tab
     string path = "C:\\logins\\Teachers";         // The main path.    
@@ -1000,7 +1040,7 @@ void AddStudent()
 
     string Fullpath = path + Bs + TeacherName + Bs + "Classes" + Bs + ClassName; // Path to folder;
     makefolder(Formatter(StudentName), Formatter(Fullpath), Warning);
-    StudentInfoFile(StudentName, StudentDOB, StudentParents, Phonenumber, Studentaddress, Yearlevel, Fullpath);
+    StudentInfoFile(StudentName, StudentDOB, StudentParents, Phonenumber, Studentaddress, Yearlevel, Fullpath, TeacherName, ClassName);
 }
 char input =' ';
 void interface()
