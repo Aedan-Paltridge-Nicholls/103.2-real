@@ -39,6 +39,7 @@ string Formatter(string input) // Formats strings to replace spaces with undersc
         }
     }
     
+
     return Formatter;
 }
 void startup() // Checks if The files for The program exist and if not creates them.
@@ -536,7 +537,7 @@ void Timetable()
             }
         }
     }
-    void endinfofile();
+    
     void convert(string);
 
         cout << Top << endl;
@@ -562,12 +563,7 @@ void Timetable()
         day++;
     }
     convert(Bottom);
-    endinfofile();
-   
-}
-void endinfofile()
-{
-    void convert(string);
+
     string endinfofile = "|*";
     endinfofile.append(D.NLF);// Top of student table 
     {
@@ -612,6 +608,7 @@ void endinfofile()
     endinfofile.append(D.NLF);// End of endinfofile. 
     convert(endinfofile);
 }
+
 void convert(string in)
 {
         u8string  output;
