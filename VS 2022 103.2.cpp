@@ -409,9 +409,118 @@ struct Drawing
     string BM = (d.BM += d.BMc);   //! ╩ Bottom Middle 
     string BR = (d.BR += d.BRc);   //! ╝ Bottom Right
 }D;
-
-string timetableout[17] = { "","","","","","","","","","","","","","","","",""};
 string outclasspath;
+void convert(string in)
+
+{
+        std::u8string  output;
+        output = u8"";
+    char* working = new char[in.length() + 1];
+    for (int i = 0; i < in.length(); i++)
+    { 
+        working[i] = in[i];
+    } 
+    working[in.size()] = '\0';
+    for (int i = 0; i < in.length(); i++)
+    {
+   
+        switch (working[i])
+        {
+          case 'É'://! ╔ Top Left 
+          {
+              output += u8"╔";
+          }
+          break;
+          case 'Í'://! ═ Line Middle 
+          {
+              output += u8"═";
+          }
+          break;
+          case 'Ë'://! ╦ Top Middle 
+          {
+              output += u8"╦";
+          }
+          break;
+          case '»'://! ╗ Top Right 
+          {
+              output += u8"╗";
+          }
+          break;
+          case 'º'://! ║ Middle Middle
+          {
+              output += u8"║";
+          }
+          break;
+          case 'Ì'://! ╠ Line Left 
+          {
+              output += u8"╠";
+          }
+          break;
+          case 'Î'://! ╬ Line Center 
+          {
+              output += u8"╬";
+          }
+          break;
+          case '¹'://! ╣ Line Right 
+          {
+              output += u8"╣";
+          }
+          break;
+          case 'Û'://! █ Block
+          {
+              output += u8"█";
+          }
+          break;
+          case 'È'://! ╚ Bottom Left 
+          {
+              output += u8"╚";
+          }break;
+          case 'Ê'://! ╩ Bottom Middle 
+          {
+              output += u8"╩";
+          }
+          break;
+          case '¼': //! ╝ Bottom Right
+          {
+              output += u8"╝";
+          }
+          break;
+          case '¯': //! » Two arrows
+          {
+              output += u8"»";
+          }
+          break;
+          case ' '://! " " Space
+          {
+              output += u8" ";
+          }
+          break;
+          case '|'://! New line in the file
+          {
+              output += u8"\n";
+          }
+          break;
+          case '*'://! * Asterisk this is for ending the info file
+          {
+              output  = u8" Students in this class : ";
+          }
+          break;
+          default:
+          {
+              output += working[i];
+          }
+          break;
+        }
+    }
+        u8string u8str = output;
+    //    u8str += u8"\n";
+        ofstream out(outclasspath, ios_base::app);
+        out << string_view(reinterpret_cast<const char*>(u8str.data()), u8str.size());
+        out.close();
+    delete[] working;
+}
+string timetableout[17] = { "","","","","","","","","","","","","","","","",""};
+
 void Timetable()
 {
     
@@ -538,7 +647,7 @@ void Timetable()
         }
     }
     
-    void convert(string);
+   
 
         cout << Top << endl;
         cout << Header << endl;
@@ -551,7 +660,7 @@ void Timetable()
    
         int day = 0;
 
-        void convert(string);
+      
         string path = "C:\\logins\\Teachers";
     convert(Top);
     convert(Header);
@@ -609,114 +718,7 @@ void Timetable()
     convert(endinfofile);
 }
 
-void convert(string in)
-{
-        u8string  output;
-        output = u8"";
-    char* working = new char[in.length() + 1];
-    for (int i = 0; i < in.length(); i++)
-    { 
-        working[i] = in[i];
-    } 
-    working[in.size()] = '\0';
-    for (int i = 0; i < in.length(); i++)
-    {
-   
-        switch (working[i])
-        {
-          case 'É'://! ╔ Top Left 
-          {
-              output += u8"╔";
-          }
-          break;
-          case 'Í'://! ═ Line Middle 
-          {
-              output += u8"═";
-          }
-          break;
-          case 'Ë'://! ╦ Top Middle 
-          {
-              output += u8"╦";
-          }
-          break;
-          case '»'://! ╗ Top Right 
-          {
-              output += u8"╗";
-          }
-          break;
-          case 'º'://! ║ Middle Middle
-          {
-              output += u8"║";
-          }
-          break;
-          case 'Ì'://! ╠ Line Left 
-          {
-              output += u8"╠";
-          }
-          break;
-          case 'Î'://! ╬ Line Center 
-          {
-              output += u8"╬";
-          }
-          break;
-          case '¹'://! ╣ Line Right 
-          {
-              output += u8"╣";
-          }
-          break;
-          case 'Û'://! █ Block
-          {
-              output += u8"█";
-          }
-          break;
-          case 'È'://! ╚ Bottom Left 
-          {
-              output += u8"╚";
-          }break;
-          case 'Ê'://! ╩ Bottom Middle 
-          {
-              output += u8"╩";
-          }
-          break;
-          case '¼': //! ╝ Bottom Right
-          {
-              output += u8"╝";
-          }
-          break;
-          case '¯': //! » Two arrows
-          {
-              output += u8"»";
-          }
-          break;
-          case ' '://! " " Space
-          {
-              output += u8" ";
-          }
-          break;
-          case '|'://! New line in the file
-          {
-              output += u8"\n";
-          }
-          break;
-          case '*'://! * Asterisk this is for ending the info file
-          {
-              output  = u8" Students in this class : ";
-          }
-          break;
-          default:
-          {
-              output += working[i];
-          }
-          break;
-        }
-    }
-        u8string u8str = output;
-        u8str += u8"\n";
-        ofstream out(outclasspath, ios_base::app);
-        out << string_view(reinterpret_cast<const char*>(u8str.data()), u8str.size());
-        out.close();
-    delete[] working;
-}
+
     /*
     * TeacherName = str1   //The teacher's name
     *  ClassName = str2     // The name of the class
@@ -819,22 +821,22 @@ string gender()
     {
         case 'M':
         {
-            out.append(" Male ");
+            out.append("Male");
         }
         break;
         case 'F':
         {
-         out.append(" Female ");  
+         out.append("Female");  
         }
         break;
         case 'O':
         {
-            out.append(" other ");
+            out.append("other");
         }
         break;
         default:
         {
-            out.append(" Unspecified ");
+            out.append("?????");
         }
         break;
     }
@@ -876,21 +878,23 @@ void SudentInfoToClass(string str1, string str2, string str3, string str4, strin
     ClassStudentInfo.append(D.NLF);// Column of student table 
     {
         ClassStudentInfo.append(D.MM);
-        string  ColumnOne = StudentName;          //Column One.
-        ClassStudentInfo.append(D.SP);
+        string  ColumnOne = StudentName;               //Column One.
+        ColumnOne.append(D.SP);
         ClassStudentInfo.append(ColumnOne);
-        for (size_t i = 0; i < (40 - ColumnOne.size()); i++) { ColumnOne.append(D.SP); }
+        for (size_t i = 0; i < (40 - ColumnOne.size()); i++) { ClassStudentInfo.append(D.SP); }
+        //ClassStudentInfo.append(D.SP);
         ClassStudentInfo.append(D.MM);
+        
         string ColumnTwo = gen;                        //Column two.
-        ClassStudentInfo.append(D.SP);
+        ColumnTwo.append(D.SP);
         ClassStudentInfo.append(ColumnTwo);
-        for (size_t i = 0; i < (9 - ColumnOne.size()); i++) { ClassStudentInfo.append(D.SP); }
+        for (size_t i = 0; i < (9 - ColumnTwo.size()); i++) { ClassStudentInfo.append(D.SP); }
         ClassStudentInfo.append(D.MM);
-        string  ColumnThree = StudentDOB;
-        //Column three.
-        for (int i = 0; i < 3; i++) {  ClassStudentInfo.append(D.SP); }
+       
+        string  ColumnThree = StudentDOB;             //Column three
+        for (int i = 0; i < 4; i++) {  ClassStudentInfo.append(D.SP); }
         ClassStudentInfo.append(ColumnThree);
-        for (int i = 0; i < 3; i++) {  ClassStudentInfo.append(D.SP); }
+        for (int i = 0; i < 4; i++) {  ClassStudentInfo.append(D.SP); }
         ClassStudentInfo.append(D.MM);
     }
     ClassStudentInfo.append(D.NLF);// Divider of Student table.
@@ -969,8 +973,8 @@ void StudentInfoFile(string str1, string str2, string str3, string str4, string 
     L4 = Sp + str1 + T8 + Sp + str4;
     string command = SC + Sp + L1 + Sp + NL + Sp + L2 + Sp + NL + Sp + L3 + Sp + NL + Sp + L4 + Sp + EC + Sp + Path + Bs + FN + T9;
     system(Fixer(command));
-    command = "type " + Path + Bs + FN + T9;
-    system(Fixer(command));
+  //  command = "type " + Path + Bs + FN + T9;
+  ///  system(Fixer(command));
     SudentInfoToClass(str1, str2,gen,str8,str9);
 }
 
