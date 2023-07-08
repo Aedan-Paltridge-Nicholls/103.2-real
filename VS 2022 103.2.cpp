@@ -1043,7 +1043,27 @@ void AddStudent()
     makefolder(Formatter(StudentName), Formatter(Fullpath), Warning);
     StudentInfoFile(StudentName, StudentDOB, StudentParents, Phonenumber, Studentaddress, Yearlevel, Fullpath, TeacherName, ClassName);
 }
-char input =' ';
+
+void Makelogin()// For admins to add Login
+{
+    string password, username;
+    cout << "The student's teacher's name  "; // The students teacher's name.
+    getline(cin, username);
+    username = Formatter(username);
+    cout << "The student's class's  name  "; // The name of The student's class.
+    getline(cin, password);
+    password = Formatter(password);
+}
+void login()
+{
+    string password, username;
+    cout << "The student's teacher's name  "; // The students teacher's name.
+    getline(cin, username);
+    username = Formatter(username);
+    cout << "The student's class's  name  "; // The name of The student's class.
+    getline(cin, password);
+    password = Formatter(password);
+}
 void interface()
 
 {
