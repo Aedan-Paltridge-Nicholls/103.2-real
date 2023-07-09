@@ -130,6 +130,9 @@
   <ItemGroup>
     <ClCompile Include="VS 2022 103.2.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="VS 2022 103.2.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

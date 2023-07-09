@@ -3,18 +3,21 @@
 #include <string.h>
 #include <string>
 #include <fstream>
+#include <cstdlib>
 #include <conio.h>
 #include <cstring>
 #include <iostream>
+#include "VS 2022 103.2.h"
 constexpr auto KEY_UP = 72;
 constexpr auto KEY_DOWN = 80;
 constexpr auto KEY_LEFT = 75;
 constexpr auto KEY_RIGHT = 77;
 constexpr auto KEY_ENTER = 13;
 constexpr auto KEY_BACKSPACE = 8;
-
-using namespace std;
 FILE* stream;
+using namespace std;
+using std::getline;
+
 
 char* Fixer(string InpStr)
 {
@@ -45,8 +48,8 @@ string Formatter(string input) // Formats strings to replace spaces with undersc
 void startup() // Checks if The files for The program exist and if not creates them.
 {
    
-    system("if not exist C:\\logins\\Teachers mkdir C:\\logins\\Teachers");
-    system("tree /F  C:\\logins");
+    std::system("if not exist C:\\logins\\Teachers mkdir C:\\logins\\Teachers");
+    std::system("tree /F  C:\\logins");
 }
 void makefile(string content, string directory, string filename) // Make a text file in  a choosen  directory.
 {
@@ -55,7 +58,8 @@ void makefile(string content, string directory, string filename) // Make a text 
     string command = " echo. ";
     string AA = " >> "; // Two arrows so that, it will add to a file, not overwrite it.
     string out = command + Qm + content + Qm + AA + directory + Bs + filename + ".txt";
-    system(Fixer(out));
+    std::system(Fixer(out));
+    return;
 }
 void makefolder(string input, string directory, string warning) // Make folder in  a choosen  directory.
 {
@@ -69,10 +73,12 @@ void makefolder(string input, string directory, string warning) // Make folder i
     char Sp = 32;                // A space.
     char Qm = 34;                // A Quotation mark.
     string out = Ck + directory + Bs + input += Sp + Ob + C1 + directory + Bs + input + Cb + C2 + Ob + C3 += Qm + warning += Qm + Cb;
-    system(Fixer(out));
+    std::system(Fixer(out));
+    return;
 }
 void AddATeacher() 
 {
+    std::system("cls");
     cin.ignore();
     string path = "C:\\logins\\Teachers";            // Path to folder;
     string error = "Inputted teacher already exists"; // Warns if The inputted teacher's name already exists;
@@ -81,7 +87,8 @@ void AddATeacher()
     getline(cin, input);
     input = Formatter(input);
     makefolder(input, path, error);
-    system("TREE C:\\logins");
+    std::system("TREE C:\\logins");
+    return;
 }
 string OutTime[14] = { "00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00" };
 void SetTimetable()
@@ -103,7 +110,7 @@ void SetTimetable()
         if (Runs >= 2){Index = Runs - 2;}
         string out = "NA";
         input = 0;
-        system("cls");
+        std::system("cls");
         if (Runs % 2 != 0) { sre = 1; }
         else { sre = 2; }
         if (sre == 2)
@@ -357,7 +364,7 @@ void SetTimetable()
         
 
     }
-
+    return;
 }
 struct Draw
 {
@@ -421,6 +428,7 @@ void convert(string in)
         working[i] = in[i];
     } 
     working[in.size()] = '\0';
+
     for (int i = 0; i < in.length(); i++)
     {
    
@@ -518,6 +526,7 @@ void convert(string in)
         out << string_view(reinterpret_cast<const char*>(u8str.data()), u8str.size());
         out.close();
     delete[] working;
+    return;
 }
 string timetableout[17] = { "","","","","","","","","","","","","","","","",""};
 
@@ -537,7 +546,7 @@ void Timetable()
    // cout << Block;
     string Blocks[15] = { D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK,D.BK, };
     SetTimetable();
-    system("cls");
+    std::system("cls");
     int StartClass = 0;
     int EndClass = 1;
 
@@ -662,16 +671,16 @@ void Timetable()
 
       
         string path = "C:\\logins\\Teachers";
-    convert(Top);
-    convert(Header);
+        convert((Top + "|"));
+        convert((Header + "|"));
     for (int i = 3; i < 17; i += 2)
     { 
         int loops = i;
-        convert(Divider);
-        convert(Content[day]);
+        convert((Divider)+"|");
+        convert((Content[day]+"|"));
         day++;
     }
-    convert(Bottom);
+    convert((Bottom)+"|");
 
     string endinfofile = "|*";
     endinfofile.append(D.NLF);// Top of student table 
@@ -714,8 +723,8 @@ void Timetable()
         for (int i = 0; i < 16; i++) { endinfofile.append(D.LM); }
         endinfofile.append(D.LR);
     }
-    endinfofile.append(D.NLF);// End of endinfofile. 
     convert(endinfofile);
+    return;
 }
 
 
@@ -777,8 +786,9 @@ void ClassInfoFile(string str1, string str2, string str3, string str4, string st
     L3 = Sp + str1 + T9 + str2 + T8 + NL;
  
     string command = SC + L1 + L2 + L3 + EC + outclasspath;
-    system(Fixer(command));
+    std::system(Fixer(command));
     command = "";
+    return;
 }
 void AddAClass() 
 {
@@ -811,6 +821,7 @@ void AddAClass()
     path = "C:\\logins\\Teachers";// Makes The folder
     ClassInfoFile(TeacherName, ClassName, ClassType, startdate, Enddate, path);
     Timetable();         // Makes The file
+    return;
 }
 char Gen;// The students Gender.
 string gender()
@@ -907,7 +918,6 @@ void SudentInfoToClass(string str1, string str2, string str3, string str4, strin
         for (int i = 0; i < 16; i++) { ClassStudentInfo.append(D.LM); }
         ClassStudentInfo.append(D.LR);
     }
-    ClassStudentInfo.append(D.NLF);// End of ClassStudentInfo. 
     convert(ClassStudentInfo);
 
 
@@ -917,7 +927,7 @@ void SudentInfoToClass(string str1, string str2, string str3, string str4, strin
 
 
 
-
+    return;
 }
 /*This ↓ is the format that will be written to the file.
  *string StudentName      =   str1                 // The name of The student
@@ -972,15 +982,16 @@ void StudentInfoFile(string str1, string str2, string str3, string str4, string 
     L3 = Sp + T6 + Sp + str1 + T7 + Sp + str3 + Sp;
     L4 = Sp + str1 + T8 + Sp + str4;
     string command = SC + Sp + L1 + Sp + NL + Sp + L2 + Sp + NL + Sp + L3 + Sp + NL + Sp + L4 + Sp + EC + Sp + Path + Bs + FN + T9;
-    system(Fixer(command));
+    std::system(Fixer(command));
   //  command = "type " + Path + Bs + FN + T9;
-  ///  system(Fixer(command));
+  ///  std::system(Fixer(command));
     SudentInfoToClass(str1, str2,gen,str8,str9);
+    return;
 }
 
 void AddStudent()
 {
- 
+    std::system("cls");
     cin.ignore();
     string Tb = " ^|  ^| ";                       // Adds a tab
     string path = "C:\\logins\\Teachers";         // The main path.    
@@ -1042,67 +1053,519 @@ void AddStudent()
     string Fullpath = path + Bs + TeacherName + Bs + "Classes" + Bs + ClassName; // Path to folder;
     makefolder(Formatter(StudentName), Formatter(Fullpath), Warning);
     StudentInfoFile(StudentName, StudentDOB, StudentParents, Phonenumber, Studentaddress, Yearlevel, Fullpath, TeacherName, ClassName);
+    return;
 }
 
+string SetAccountType()
+{
+    while(true)
+    {
+        char Type = ' ';
+        cout << "Account Types : "; // Account Type
+        cout << "\n[A]dmin\n[T]eacher\n[P]arent\n";
+        cin >> Type;
+        switch (toupper(Type))
+        {
+            case 'A':
+            {return  "Admin"; }
+            break;
+            case 'T':
+            {return "Teacher"; }
+            break;
+            case 'P':
+            {return "Parent"; }
+            break;
+            default:
+            {cout << "\n Invalid Account Type\n Vaid "; }
+            break;
+        }
+    }
+   
+}
 void Makelogin()// For admins to add Login
 {
-    string password, username;
-    cout << "The student's teacher's name  "; // The students teacher's name.
-    getline(cin, username);
-    username = Formatter(username);
-    cout << "The student's class's  name  "; // The name of The student's class.
-    getline(cin, password);
-    password = Formatter(password);
+    
+    string Password, Username, AccountType;
+    cout << "Username : "; // Username
+    getline(cin, Username);
+    Username = Formatter(Username);
+
+    cout << "Password : "; // Password
+    getline(cin, Password);
+    Password = Formatter(Password);
+
+    AccountType = SetAccountType();//Account Type
+
+    string command = "echo > C:\\logins\\" + Username + ".txt " + Password+"\t"+ AccountType;
+    std::system(Fixer(command));
+    return;
 }
-void login()
+string Currentlogin[2] = {"No logged-in User","No set Account Type"};
+void Login()
 {
-    string password, username;
-    cout << "The student's teacher's name  "; // The students teacher's name.
-    getline(cin, username);
-    username = Formatter(username);
-    cout << "The student's class's  name  "; // The name of The student's class.
-    getline(cin, password);
-    password = Formatter(password);
+    string Password = "", Username = "", Filename = "C:\\logins\\",FileContent;
+
+    cout << "Username : "; // Username
+    getline(cin, Username);
+    Username = Formatter(Username);
+    Filename += (Username + ".txt");
+
+    cout << "Password : "; // Password
+    getline(cin, Password);
+    Password = Formatter(Password);
+    ifstream LoginFile(Filename);
+    if (LoginFile.good())
+    {
+        Currentlogin[0] = Username;
+        getline(LoginFile, FileContent);
+        if (FileContent.find(Password) != string::npos )
+        {
+            if (FileContent.find("Admin") != string::npos)
+            {
+                Currentlogin[1] = "Admin";
+            }
+            else if (FileContent.find("Teacher") != string::npos)
+            {
+                Currentlogin[1] = "Teacher";
+            }
+            else if (FileContent.find("Parent") != string::npos)
+            {
+                Currentlogin[1] = "Parent";
+            }
+        }
+        else
+        {
+            cout << "\nIncorrect Password\n";
+        }
+    }
+    else
+    {
+        cout << "\nIncorrect or Non-Existing Username\n";
+    }
+
+    return;
+}
+bool run = true;
+string StudentGrades(std::string in,std::string Student)
+{
+    int grade=0;
+    while(true)
+    {   
+        std::system("cls");
+        cout << "\nThe grade " + Student + " got in " + in + " = " + to_string(grade) + "\n";
+        switch (_getch())
+        {
+            case KEY_UP:
+            {grade++; }
+            break;
+            case KEY_DOWN:
+            {grade--; }
+            break;
+            case KEY_ENTER:
+            {  
+                     if (grade ==100) { return " %100 A+"; }
+                else if (grade >= 98) { return " % " + to_string(grade) + "  A+ "; }// A
+                else if (grade >= 93) { return " % " + to_string(grade) + "  A  "; }
+                else if (grade >= 90) { return " % " + to_string(grade) + "  A- "; }
+                else if (grade >= 87) { return " % " + to_string(grade) + "  B+ "; }// B
+                else if (grade >= 83) { return " % " + to_string(grade) + "  B  "; }
+                else if (grade >= 80) { return " % " + to_string(grade) + "  B- "; }
+                else if (grade >= 77) { return " % " + to_string(grade) + "  C+ "; }// C
+                else if (grade >= 73) { return " % " + to_string(grade) + "  C  "; }
+                else if (grade >= 70) { return " % " + to_string(grade) + "  C- "; }
+                else if (grade >= 67) { return " % " + to_string(grade) + "  D+ "; } // D
+                else if (grade >= 60) { return " % " + to_string(grade) + "  D  "; }
+                else if (grade >= 50) { return " % " + to_string(grade) + "  D- "; }
+                else if (grade >= 40) { return " % " + to_string(grade) + "  F+ "; }// F
+                else if (grade >= 30) { return " % " + to_string(grade) + "  F  "; }
+                else if (grade <= 10) { return " % " + to_string(grade) +"   F- "; }
+                else if (grade <= 30) { return " % " + to_string(grade) + "  F- "; }
+                
+            }
+                break;
+            default:
+                break;
+        }
+        if (grade >100){grade = 0;}
+        if (grade < 0){grade = 0;}
+    }
+    return " ";
+}
+/* ╔════════════════════╦══════════╗
+ * ║ Assesment          ║  Grades  ║ ║ Assesment          ║  Grades  ║  
+ * ╠════════════════════╬══════════╣ ╠════════════════════╬══════════╣
+ * ║                    ║          ║ ║ English            ║ %100  A+ ║
+ * ╚════════════════════╩══════════╝ ╚════════════════════╩══════════╝
+ * 
+ * 
+ */  
+void CheckGrading()
+{
+    std::system("cls");
+    cin.ignore();
+    string TeacherName, ClassName, StudentName, ReportName, path = "C:\\logins\\teachers\\";
+
+
+    
+    cout << "the Teacher's name : ";// The name of The student's Teacher.
+    getline(cin, TeacherName);
+    TeacherName = Formatter(TeacherName);
+    cout << "The class's  name : "; // The name of The student's class.
+    getline(cin, ClassName);
+    ClassName = Formatter(ClassName);
+    cout << "The student's  name : "; // The name of The student.
+    getline(cin, StudentName);
+    StudentName = Formatter(StudentName);
+    path += TeacherName + "\\classes\\" + ClassName + "\\" + StudentName + "\\Grades.txt";
+    std::system(Fixer("start C:\\windows\\system32\\notepad.exe  " + path));
+    return;
+}
+void Grading()
+{
+    std::system("cls");
+    cin.ignore();
+    string TeacherName, ClassName, StudentName,name, GradingOut, exit = "Stop", path = "C:\\logins\\teachers\\";
+
+    cout << "the Teacher's name : ";// The name of The student's Teacher.
+    getline(cin, TeacherName);
+    TeacherName = Formatter(TeacherName);
+    cout << "The class's  name : "; // The name of The student's class.
+    getline(cin, ClassName);
+    ClassName = Formatter(ClassName);
+    cout << "The student's  name : "; // The name of The student.
+    getline(cin, StudentName);
+    name = StudentName;
+    StudentName = Formatter(StudentName);
+    path += TeacherName + "\\classes\\" + ClassName + "\\" + StudentName+ "\\Grades.txt";
+    outclasspath = path;
+    bool esc = false;
+    
+    string top = "", header = "", content = "", bottom = "", divider = "", input = "", fullgrade = "";
+    std::system("echo off");
+    header.append(D.MM);
+    header.append(D.SP);
+    header.append("Assesment");
+    for (int i = 0; i < 10; i++){header.append(D.SP);}
+    header.append(D.MM);
+    for (int i = 0; i < 2; i++) { header.append(D.SP); }
+    header.append("Grades");
+    for (int i = 0; i < 2; i++) { header.append(D.SP); }
+    header.append(D.MM);
+    {  
+            top.append(D.TL);
+            divider.append(D.LL);
+            bottom.append(D.BL);
+
+            for (int i = 0; i < 33; i++)
+            {
+                if (i <  20)
+                {
+                    top.append(D.LM);
+                    divider.append(D.LM);
+                    bottom.append(D.LM);
+                }
+                else if (i == 20)
+                {
+                    top.append(D.TM);
+                    divider.append(D.LC);
+                    bottom.append(D.BM);
+                }
+                else if (i < 31)
+                {
+                    top.append(D.LM);
+                    divider.append(D.LM);
+                    bottom.append(D.LM);
+                }
+                else if (i == 31)
+                {
+                    top.append(D.TR);
+                    divider.append(D.LR);
+                    bottom.append(D.BR);
+                }
+            }
+            convert((top)+"|");
+            convert((header)+"|");
+            
+    }    
+    int loops=0;
+    string displaycontent[256];
+    for (int i = 0; i < 256; i++)
+    {displaycontent[i]= "null";}
+    while (esc == false)
+    {      
+          
+        content = "";
+        int inloops=0;
+        cout << "\nWrite what you are grading\n type \'EXIT\' to stop adding grades \n";
+        getline(cin, input);
+        if (input == "EXIT"){break;}
+        convert((divider)+"|");
+        fullgrade = StudentGrades(input, name);
+        std::system("cls");
+        size_t Inputsize = (20 - (input.size()+1));
+        for (size_t i = 0; i < Inputsize ; i++) 
+        { input.append(D.SP); }
+        content.append((D.MM+D.SP));
+        content.append(input);
+        content.append(D.MM);
+        content.append(fullgrade);
+        content.append(D.MM);
+        displaycontent[loops] = content; 
+        cout << top << endl << header << endl << divider << endl ;
+        while (displaycontent[inloops] != "null")
+        {
+            if (displaycontent[(inloops + 1)] != "null"){ cout << displaycontent[inloops] << endl << divider << endl; }
+            else if (displaycontent[(inloops + 1)] == "null") { cout  << displaycontent[inloops] << endl << bottom << endl; }
+            inloops++;
+        }
+        convert((content)+"|");
+        loops++;
+    }
+    convert((bottom)+"|");
+
+    
+    return;
+}
+void reportViewer()
+{
+    std::system("cls");
+    cin.ignore();
+    string TeacherName, ClassName, StudentName, ReportName, path = "C:\\logins\\teachers\\";
+   
+    
+    cout << "the Teacher's name : ";// The name of The student's Teacher.
+    getline(cin, TeacherName);
+    TeacherName = Formatter(TeacherName);
+    cout << "The class's  name : "; // The name of The student's class.
+    getline(cin, ClassName);
+    ClassName = Formatter(ClassName);
+    cout << "The student's  name : "; // The name of The student.
+    getline(cin, StudentName);
+    StudentName = Formatter(StudentName);
+    path += TeacherName + "\\classes\\" + ClassName + "\\" + StudentName;
+    std::system(Fixer("tree /F " + path ));
+    cout << "the Report's name : ";// The name of The student's Report.
+    getline(cin, ReportName);
+    ReportName = Formatter(ReportName);
+    bool esc = false;
+ 
+    std::system(Fixer("start C:\\windows\\system32\\notepad.exe  " + path + "\\" + ReportName + ".txt"));
+    return;
+}
+void reportmaker()
+{
+     std::system("cls");
+     cin.ignore();
+    string TeacherName,ClassName,StudentName,ReportOut, ReportName,exit ="Stop Report",path= "C:\\logins\\teachers\\";
+    cout << "Make a report\n";
+    cout << "the Report's name : ";// The name of The student's Report.
+    getline(cin, ReportName);
+    ReportName = Formatter(ReportName);
+    cout << "the Teacher's name : ";// The name of The student's Teacher.
+    getline(cin, TeacherName);
+    TeacherName = Formatter(TeacherName);
+    cout << "The class's  name : "; // The name of The student's class.
+    getline(cin, ClassName);
+    ClassName = Formatter(ClassName);
+    cout << "The student's  name : "; // The name of The student.
+    getline(cin, StudentName);
+    StudentName = Formatter(StudentName);
+    path += TeacherName + "\\classes\\" + ClassName + "\\" + StudentName;
+    bool esc = false;
+    cout << "Making the report type \'Stop Report\' to Finish the report\n";
+    std::system("echo off");
+    while (esc == false)
+    {
+        getline(cin, ReportOut);
+        if (ReportOut.find(exit) != string::npos)
+        {
+            size_t Pos = ReportOut.find(exit);
+            if (Pos != string::npos)
+            {
+                ReportOut.erase(Pos, exit.length());
+            }
+            esc = true;
+        }
+
+        string command = " (echo off & echo " + ReportOut + " ) >> " + path + "\\" + ReportName + ".txt ";
+        ReportOut = "";
+        std::system(Fixer(command));
+    }
+    std::system(Fixer("type " + path + "\\" + ReportName + ".txt"));
+    return;
 }
 void interface()
-
 {
-    cout << "What do you want to do\nAdd A Class\t[C]\nAdd a Student\t[S]\nAdd a teacher\t[T]\nExit\t\t[E]\n";
-    
+    std::system("cls");
+    cout << "\nUser name : " << Currentlogin[0] << "\nAccount Type : " << Currentlogin[1] <<"\n"
+         << "\nWhat do you want to do\nAdd A Class\t[C]\nAdd a Student\t[S]\nAdd a Teacher\t[T]"
+         << "\nCheck Grades\t[G]\nView a Report\t[V]\nSet Grades\t[Q]\nMake a Report\t[R]"
+         << "\nAdd a Login\t[L]\nLogout\t\t[O]\nExit\t\t[E]"
+         << "\n :  ";
+    char input = ' ';
     cin >> input;
     switch (toupper(input))
     {
-    case 'C':
-    { AddAClass();
-    }
-    break;
+        case 'C':
+        {
+            if (Currentlogin[1] == "Admin")
+            {
+                AddAClass();
+            }
+            else if (Currentlogin[1] == "Teacher")
+            {
+                AddAClass();
+            }
+            else if ( Currentlogin[1] == "Parent")
+            {
+                cout << "Your login's Account Type doesn't have permissions to do that ";
+            }
+            
+        }
+        break;
+        case 'S':
+        { 
+            if (Currentlogin[1] == "Admin")
+            {
+                AddStudent();
+            }
+            else if (Currentlogin[1] == "Teacher")
+            {
+                AddStudent();
+            }
+            else if (Currentlogin[1] == "Parent")
+            {
+                cout << "Your login's Account Type doesn't have permissions to do that ";
+            }
+        }
+        break;
+        case 'T':
+        {  
+            if (Currentlogin[1] == "Admin")
+            {
+                AddATeacher();
+            }
+            else if (Currentlogin[1] == "Teacher")
+            {
+                cout << "Your login's Account Type doesn't have permissions to do that ";
+            }
+            else if (Currentlogin[1] == "Parent")
+            {
+                cout << "Your login's Account Type doesn't have permissions to do that ";
+            }
+            
+        }
+        break;
+        case 'G'://todo : make grader checker
+        {
+            if (Currentlogin[1] == "Admin")
+            {
+                CheckGrading();
+            }
+            else if (Currentlogin[1] == "Teacher")
+            {
+                CheckGrading();
+            }
+            else if (Currentlogin[1] == "Parent")
+            {
+                CheckGrading();
+            }
 
-    case 'S':
-    { AddStudent();
+        }
+        break;
+        case 'V'://todo : make Report viewer
+        {
+            if (Currentlogin[1] == "Admin")
+            {
+                reportViewer();
+            }
+            else if (Currentlogin[1] == "Teacher")
+            {
+                reportViewer();
+            }
+            else if (Currentlogin[1] == "Parent")
+            {
+                reportViewer();
+            }
+        }
+        break;
+        case 'R':
+        {
+            if (Currentlogin[1] == "Admin")
+            {
+                reportmaker();
+            }
+            else if (Currentlogin[1] == "Teacher")
+            {
+                reportmaker();
+            }
+            else if (Currentlogin[1] == "Parent")
+            {
+                cout << "Your login's Account Type doesn't have permissions to do that ";
+            }
+        }
+        case 'Q'://todo : make grader
+        {
+            if (Currentlogin[1] == "Admin")
+            {
+                Grading();
+            }
+            else if (Currentlogin[1] == "Teacher")
+            {
+                Grading();
+            }
+            else if (Currentlogin[1] == "Parent")
+            {
+                cout << "Your login's Account Type doesn't have permissions to do that ";
+            }
+
+        }
+        break;
+        
+        case 'L':
+        {
+            if (Currentlogin[1] == "Admin")
+            {
+                Makelogin();
+            }
+            else if (Currentlogin[1] == "Teacher")
+            {
+                cout << "Your login's Account Type doesn't have permissions to do that ";
+            }
+            else if (Currentlogin[1] == "Parent")
+            {
+                cout << "Your login's Account Type doesn't have permissions to do that ";
+            }
+
+        }
+        break;
+        case 'O':
+        {
+                Login();
+        }
+        break;
+        case 'E':
+        {  
+
+            run = false;
+        }
+        break;
+        default:
+        {
+            cout << "Invalid input try again" << endl;
+        }
+        break;
     }
-    break;
-    case 'T':
-    {  AddATeacher();
-    }
-    break;
-    case 'E':
-    {  system("exit");
-    }
-    break;
-    default:
-    {
-        cout << "Invalid input try again" << endl;
-    }
-    break;
-    }
+
 }
 int main()
 {
-    //AddStudent();
-   // Timetable();
-
+   
     startup();
-    while (true)
+
+    Login();
+   
+    while (run == true)
     {
         //cin.ignore();
         interface();
@@ -1121,3 +1584,4 @@ int main()
 //   4. Use the Error List window to view errors
 //   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
 //   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
