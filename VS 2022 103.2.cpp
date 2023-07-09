@@ -1456,7 +1456,7 @@ void interface()
             
         }
         break;
-        case 'G'://todo : make grader checker
+        case 'G':
         {
             if (Currentlogin[1] == "Admin")
             {
@@ -1473,7 +1473,7 @@ void interface()
 
         }
         break;
-        case 'V'://todo : make Report viewer
+        case 'V':
         {
             if (Currentlogin[1] == "Admin")
             {
@@ -1504,7 +1504,7 @@ void interface()
                 cout << "Your login's Account Type doesn't have permissions to do that ";
             }
         }
-        case 'Q'://todo : make grader
+        case 'Q':
         {
             if (Currentlogin[1] == "Admin")
             {
