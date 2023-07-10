@@ -1104,47 +1104,50 @@ void Makelogin()// For admins to add Login
 string Currentlogin[2] = {"No logged-in User","No set Account Type"};
 void Login()
 {
-    string Password = "", Username = "", Filename = "C:\\logins\\",FileContent;
-
-    cout << "Username : "; // Username
-    getline(cin, Username);
-    Username = Formatter(Username);
-    Filename += (Username + ".txt");
-
-    cout << "Password : "; // Password
-    getline(cin, Password);
-    Password = Formatter(Password);
-    ifstream LoginFile(Filename);
-    if (LoginFile.good())
+    while (true)
     {
-        Currentlogin[0] = Username;
-        getline(LoginFile, FileContent);
-        if (FileContent.find(Password) != string::npos )
+        string Password = "", Username = "", Filename = "C:\\logins\\", FileContent;
+
+        cout << "Username : "; // Username
+        getline(cin, Username);
+        Username = Formatter(Username);
+        Filename += (Username + ".txt");
+
+        cout << "Password : "; // Password
+        getline(cin, Password);
+        Password = Formatter(Password);
+        ifstream LoginFile(Filename);
+        if (LoginFile.good())
         {
-            if (FileContent.find("Admin") != string::npos)
+            Currentlogin[0] = Username;
+            getline(LoginFile, FileContent);
+            if (FileContent.find(Password) != string::npos)
             {
-                Currentlogin[1] = "Admin";
+                if (FileContent.find("Admin") != string::npos)
+                {
+                    Currentlogin[1] = "Admin"; return;
+                }
+                else if (FileContent.find("Teacher") != string::npos)
+                {
+                    Currentlogin[1] = "Teacher"; return;
+                }
+                else if (FileContent.find("Parent") != string::npos)
+                {
+                    Currentlogin[1] = "Parent"; return;
+                }
             }
-            else if (FileContent.find("Teacher") != string::npos)
+            else
             {
-                Currentlogin[1] = "Teacher";
-            }
-            else if (FileContent.find("Parent") != string::npos)
-            {
-                Currentlogin[1] = "Parent";
+                cout << "\nIncorrect Password\n";
             }
         }
         else
         {
-            cout << "\nIncorrect Password\n";
+            cout << "\nIncorrect or Non-Existing Username\n";
         }
     }
-    else
-    {
-        cout << "\nIncorrect or Non-Existing Username\n";
-    }
 
-    return;
+   
 }
 bool run = true;
 string StudentGrades(std::string in,std::string Student)
