@@ -84,7 +84,7 @@ void AddATeacher()
     string path = "C:\\logins\\Teachers";            // Path to folder;
     string error = "Inputted teacher already exists"; // Warns if The inputted teacher's name already exists;
     string input = "";
-    cout << "Name of Teacher  ";
+    cout << "Adding Teacher\nName of Teacher : ";
     getline(cin, input);
     input = Formatter(input);
     makefolder(input, path, error);
@@ -92,6 +92,7 @@ void AddATeacher()
     return;
 }
 string OutTime[14] = { "00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00","00:00" };
+bool TimeTableview = false;
 void SetTimetable()
 {
     for (int i = 0; i < 14; i++)
@@ -122,7 +123,7 @@ void SetTimetable()
         }
         
 
-        if (days > 6) { break; } 
+        if (days > 6) { TimeTableview = true; break; }
         cout << "Press Up arrow key  or Down arrow key to increase or decrease the time." << endl;
         cout << "Press Left arrow key  or Right arrow key to decrease or increase the increment." << endl;
         cout << "Set time to 0000 or don't change the time to skip a day; " << endl;
@@ -795,6 +796,8 @@ void AddAClass()
 {
    
     cin.ignore();
+    std::system("cls");
+    std::system("tree C:\\logins\\Teachers");
     string Bs = "\\";                            // A Back slash
     string TeacherName;                      // The teacher's name
     string ClassName;                        // The new class's name
@@ -993,6 +996,7 @@ void StudentInfoFile(string str1, string str2, string str3, string str4, string 
 void AddStudent()
 {
     std::system("cls");
+    std::system("tree C:\\logins\\Teachers");
     cin.ignore();
     string Tb = " ^|  ^| ";                       // Adds a tab
     string path = "C:\\logins\\Teachers";         // The main path.    
@@ -1085,8 +1089,10 @@ string SetAccountType()
 }
 void Makelogin()// For admins to add Login
 {
-    
+    cin.ignore();
     string Password, Username, AccountType;
+    cout << "Add a Login\n ";
+    
     cout << "Username : "; // Username
     getline(cin, Username);
     Username = Formatter(Username);
@@ -1101,13 +1107,14 @@ void Makelogin()// For admins to add Login
     std::system(Fixer(command));
     return;
 }
-string Currentlogin[2] = {"No logged-in User","No set Account Type"};
+string Currentlogin[2] = {"Null","Null"};
 void Login()
 {
+    if (Currentlogin[1]!="Null"){cin.ignore();}
     while (true)
     {
         string Password = "", Username = "", Filename = "C:\\logins\\", FileContent;
-
+        cout << "Login\n "; 
         cout << "Username : "; // Username
         getline(cin, Username);
         Username = Formatter(Username);
@@ -1156,6 +1163,7 @@ string StudentGrades(std::string in,std::string Student)
     while(true)
     {   
         std::system("cls");
+        std::system("tree C:\\logins\\Teachers");
         cout << "\nThe grade " + Student + " got in " + in + " = " + to_string(grade) + "\n";
         switch (_getch())
         {
@@ -1206,9 +1214,10 @@ string StudentGrades(std::string in,std::string Student)
 void CheckGrading()
 {
     std::system("cls");
+    std::system("tree C:\\logins\\Teachers");
     cin.ignore();
     string TeacherName, ClassName, StudentName, ReportName, path = "C:\\logins\\teachers\\";
-
+    cout << "Check Grading\n ";
 
     
     cout << "the Teacher's name : ";// The name of The student's Teacher.
@@ -1227,8 +1236,10 @@ void CheckGrading()
 void Grading()
 {
     std::system("cls");
+    std::system("tree C:\\logins\\Teachers");
     cin.ignore();
     string TeacherName, ClassName, StudentName,name, GradingOut, exit = "Stop", path = "C:\\logins\\teachers\\";
+    cout << "Grading\n ";
 
     cout << "the Teacher's name : ";// The name of The student's Teacher.
     getline(cin, TeacherName);
@@ -1333,9 +1344,10 @@ void Grading()
 void reportViewer()
 {
     std::system("cls");
+    std::system("tree C:\\logins\\Teachers");
     cin.ignore();
     string TeacherName, ClassName, StudentName, ReportName, path = "C:\\logins\\teachers\\";
-   
+    cout << "Report Viewer\n ";
     
     cout << "the Teacher's name : ";// The name of The student's Teacher.
     getline(cin, TeacherName);
@@ -1358,7 +1370,8 @@ void reportViewer()
 }
 void reportmaker()
 {
-     std::system("cls");
+    std::system("cls");
+    std::system("tree C:\\logins\\Teachers");
      cin.ignore();
     string TeacherName,ClassName,StudentName,ReportOut, ReportName,exit ="Stop Report",path= "C:\\logins\\teachers\\";
     cout << "Make a report\n";
@@ -1395,14 +1408,14 @@ void reportmaker()
         ReportOut = "";
         std::system(Fixer(command));
     }
-    std::system(Fixer("type " + path + "\\" + ReportName + ".txt"));
+   
     return;
 }
 void interface()
 {
-    std::system("cls");
+    if (TimeTableview != false){ TimeTableview = false;}else{std::system("cls");}
     cout << "\nUser name : " << Currentlogin[0] << "\nAccount Type : " << Currentlogin[1] <<"\n"
-         << "\nWhat do you want to do\nAdd A Class\t[C]\nAdd a Student\t[S]\nAdd a Teacher\t[T]"
+         << "\nWhat do you want to do\nAdd a Class\t[C]\nAdd a Student\t[S]\nAdd a Teacher\t[T]"
          << "\nCheck Grades\t[G]\nView a Report\t[V]\nSet Grades\t[Q]\nMake a Report\t[R]"
          << "\nAdd a Login\t[L]\nLogout\t\t[O]\nExit\t\t[E]"
          << "\n :  ";
@@ -1508,6 +1521,7 @@ void interface()
                 cout << "Your login's Account Type doesn't have permissions to do that ";
             }
         }
+        break;
         case 'Q':
         {
             if (Currentlogin[1] == "Admin")
@@ -1524,8 +1538,7 @@ void interface()
             }
 
         }
-        break;
-        
+        break;       
         case 'L':
         {
             if (Currentlogin[1] == "Admin")
@@ -1571,7 +1584,7 @@ int main()
    
     while (run == true)
     {
-        //cin.ignore();
+       
         interface();
     }
 
