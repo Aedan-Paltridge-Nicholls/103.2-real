@@ -1267,39 +1267,39 @@ void Grading()
     for (int i = 0; i < 2; i++) { header.append(D.SP); }
     header.append(D.MM);
     {  
-            top.append(D.TL);
-            divider.append(D.LL);
-            bottom.append(D.BL);
+        top.append(D.TL);
+        divider.append(D.LL);
+        bottom.append(D.BL);
 
-            for (int i = 0; i < 33; i++)
+        for (int i = 0; i < 33; i++)
+        {
+            if (i <  20)
             {
-                if (i <  20)
-                {
-                    top.append(D.LM);
-                    divider.append(D.LM);
-                    bottom.append(D.LM);
-                }
-                else if (i == 20)
-                {
-                    top.append(D.TM);
-                    divider.append(D.LC);
-                    bottom.append(D.BM);
-                }
-                else if (i < 31)
-                {
-                    top.append(D.LM);
-                    divider.append(D.LM);
-                    bottom.append(D.LM);
-                }
-                else if (i == 31)
-                {
-                    top.append(D.TR);
-                    divider.append(D.LR);
-                    bottom.append(D.BR);
-                }
+                top.append(D.LM);
+                divider.append(D.LM);
+                bottom.append(D.LM);
             }
-            convert((top)+"|");
-            convert((header)+"|");
+            else if (i == 20)
+            {
+                top.append(D.TM);
+                divider.append(D.LC);
+                bottom.append(D.BM);
+            }
+            else if (i < 31)
+            {
+                top.append(D.LM);
+                divider.append(D.LM);
+                bottom.append(D.LM);
+            }
+            else if (i == 31)
+            {
+                top.append(D.TR);
+                divider.append(D.LR);
+                bottom.append(D.BR);
+            }
+        }
+        convert((top)+"|");
+        convert((header)+"|");
             
     }    
     int loops=0;
