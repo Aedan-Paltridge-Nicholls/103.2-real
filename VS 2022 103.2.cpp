@@ -49,6 +49,7 @@ void startup() // Checks if The files for The program exist and if not creates t
 {
    
     std::system("if not exist C:\\logins\\Teachers mkdir C:\\logins\\Teachers");
+    std::system("echo > C:\\logins\\Admin.txt  Password123\t Admin");
     std::system("tree /F  C:\\logins");
 }
 void makefile(string content, string directory, string filename) // Make a text file in  a choosen  directory.
